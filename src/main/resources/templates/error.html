@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>出错了</title>
+    <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+    <!-- font files -->
+    <link href="//fonts.googleapis.com/css?family=Raleway:100,200,300,400,500,600,700,800,900" rel="stylesheet" />
+    <link href="//fonts.googleapis.com/css?family=Poiret+One" rel="stylesheet" />
+    <!-- /font files -->
+    <!-- css files -->
+    <link href="/css/style.css" rel="stylesheet" type="text/css" media="all" />
+    <!-- /css files -->
+    <!-- js files -->
+
+    <!-- /js files -->
+
+</head>
+<body>
+<div class="container demo-2">
+    <div class="content">
+        <div id="large-header" class="large-header">
+            <h1 class="header-w3ls">Flashy Error Page </h1>
+            <p class="w3-agileits1">Oops!</p>
+            <canvas id="demo-canvas"></canvas>
+            <img src="/images/owl.gif" alt="flashy" class="w3l" />
+            <h2 class="main-title"><span th:text="${status}"></span></h2>
+            <div class="w3-agileits2">
+                <p >错误信息.</p><br/>
+                <p  th:text="${'path: ' + path}"></p>
+                <p  th:text="${'timestap: ' + timestamp}"></p>
+                <p  th:text="${'status: ' + status}"></p>
+                <p  th:text="${'error: ' + error}"></p>
+                <p  th:text="${'exception: ' + exception}"></p>
+                <p  th:text="${'Detail: ' + message}"></p>
+                <p  th:text="${'errors: ' + errors}"></p>
+                <p  th:text="${'trace: ' + trace}"></p>
+            </div>
+            <p class="copyright">© 2017 Flashy Error Page. All Rights Reserved | Design by <a href="https://w3layouts.com/" target="_blank">W3layouts</a></p>
+        </div>
+    </div>
+</div>
+<!-- js files -->
+<script src="/js/rAF.js"></script>
+<script src="/js/demo-2.js"></script>
+<!-- /js files -->
+</body>
+</html>

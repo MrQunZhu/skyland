@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.clesun.web.skyland.dao.GroundMonitoringMapper">
+  <!--设备统计-->
+  <resultMap id="BaseResultMap" type="com.clesun.web.skyland.dto.EquipmentDto">
+    <result column="num" jdbcType="INTEGER" property="num" />
+    <result column="type" jdbcType="VARCHAR" property="type" />
+  </resultMap>
+
+
+  <!--统计不同类型设备数量-->
+  <select id="getEquipmentNum" parameterType="com.clesun.web.skyland.dto.EquipmentDto" resultMap="BaseResultMap">
+    SELECT count(id) as num,LX as type FROM EQUIPMENT GROUP BY LX;
+  </select>
+
+</mapper>

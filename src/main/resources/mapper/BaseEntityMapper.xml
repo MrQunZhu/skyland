@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.clesun.web.skyland.dao.BaseEntityMapper">
+  <!--园区实体映射-->
+  <resultMap id="BaseResultMap" type="com.clesun.web.skyland.dto.BaseEntity">
+    <id column="OBJECTID" jdbcType="INTEGER" property="objectid" />
+    <result column="Id" jdbcType="VARCHAR" property="id" />
+    <result column="MJ" jdbcType="DOUBLE" property="mj" />
+    <result column="MC" jdbcType="VARCHAR" property="mc" />
+    <result column="LXR" jdbcType="VARCHAR" property="lxr" />
+    <result column="LXFS" jdbcType="VARCHAR" property="lxfs" />
+    <result column="DZ" jdbcType="VARCHAR" property="dz" />
+    <result column="PIC" jdbcType="VARCHAR" property="pic" />
+    <result column="MS" jdbcType="VARCHAR" property="ms" />
+    <result column="Shape" jdbcType="VARCHAR" property="shapes" />
+  </resultMap>
+
+  <!--地块实体映射-->
+  <resultMap id="ParcelResultMap" type="com.clesun.web.skyland.dto.ParcelEntity" >
+    <id column="fid" property="fid" jdbcType="INTEGER" />
+    <result column="the_geom" property="theGeomStr" jdbcType="VARCHAR" />
+    <result column="Id" property="id" jdbcType="VARCHAR" />
+    <result column="MJ" property="mj" jdbcType="DOUBLE" />
+    <result column="MC" property="mc" jdbcType="VARCHAR" />
+    <result column="SSQYMC" property="ssqymc" jdbcType="VARCHAR" />
+    <result column="SSQYBM" property="ssqybm" jdbcType="VARCHAR" />
+    <result column="DKLX" property="dklx" jdbcType="VARCHAR" />
+    <result column="DLDJ" property="dldj" jdbcType="VARCHAR" />
+    <result column="MS" property="ms" jdbcType="VARCHAR" />
+    <result column="ownerUnit" property="ownerunit" jdbcType="VARCHAR" />
+    <result column="ZRZ" property="zrz" jdbcType="VARCHAR" />
+    <result column="Shape_STAr" property="shapeStar" jdbcType="DOUBLE" />
+    <result column="Shape_STLe" property="shapeStle" jdbcType="DOUBLE" />
+  </resultMap>
+
+
+  <!--查询园区信息-->
+  <select id="getBase"  parameterType="com.clesun.web.skyland.dto.BaseEntity" resultMap="BaseResultMap">
+    select OBJECTID, Id, MJ, MC, LXR, LXFS, DZ, PIC, MS,Astext(Shape) AS Shape from BASE
+  </select>
+
+  <!--查询地块信息-->
+  <select id="getParcels"  parameterType="com.clesun.web.skyland.dto.ParcelEntity" resultMap="ParcelResultMap">
+    select fid, Astext(the_geom) AS theGeomStr, Id, MJ, MC, SSQYMC, SSQYBM, DKLX, DLDJ, MS, ownerUnit, ZRZ, Shape_STAr,
+      Shape_STLe from PARCEL
+  </select>
+
+  <!--自定义分页查询-->
+  <select id="findByPage" resultMap="ParcelResultMap">
+    select
+    fid, Astext(the_geom) AS theGeomStr, Id, MJ, MC, SSQYMC, SSQYBM, DKLX, DLDJ, MS, ownerUnit, ZRZ, Shape_STAr,
+    Shape_STLe from PARCEL
+    WHERE 1=1
+    <if test="areaType != null and areaType != ''">
+      AND DKLX = #{areaType}
+    </if>
+    <if test="areaLevel != null and areaLevel != ''">
+      AND DLDJ = #{areaLevel}
+    </if>
+    <if test="personLiable != null and personLiable != ''">
+      AND ZRZ = #{personLiable}
+    </if>
+    <if test="ownerUnit != null and ownerUnit != ''">
+      AND ownerUnit = #{ownerUnit}
+    </if>
+  </select>
+</mapper>

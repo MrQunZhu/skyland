@@ -1,0 +1,86 @@
+a:focus{
+    text-decoration: none!important;
+}
+a{
+    text-decoration: none!important;
+}
+a:hover{
+    text-decoration: none!important;
+}
+.nav > li > a:hover, .nav > li > a:focus{
+    background-color:#18BC9C;
+}
+.nav .open > a, .nav .open > a:hover, .nav .open > a:focus{
+    background-color:#18BC9C;
+}
+.table-striped > tbody > tr:nth-child(odd) > td, .table-striped > tbody > tr:nth-child(odd) > th{
+    background-color:#fff;
+}
+.table-bordered > thead > tr > th, .table-bordered > thead > tr > td{
+    border-bottom-width:1px;
+}
+.row{
+    margin-left: 0;
+}
+.modal-dialog{
+margin-top: 50px;
+}
+.navbar-header{
+    background-color: #008DF7;
+    width:178px;
+}
+.navbar{
+    background-color: #20a0ff;
+    margin-bottom: 0;
+}
+.navbar-brand-title{
+    font-size:24px;
+}
+.listbutton{
+    float: right;
+    margin-right: 4%;
+}
+.table-position{
+    margin-top:15px;
+    margin-left: 2.5%;
+    width:95%;
+}
+.table-position th,.table-position td{
+    text-align: center;
+    border-bottom: 0;
+}
+.input-height{
+    height:31px;
+}
+.list-query{
+    margin-top:15px;
+    margin-left: 1.2%;
+}
+.button-position{
+    margin-right: 1%;
+}
+.botton-icon{
+    margin-right:3px;
+}
+.model-row{
+    margin-left: 20px;
+}
+.model-title{
+    width:20%;
+    margin-left: 3%;
+}
+.model-paddingLeft{
+    padding-left: 0;
+}
+.model-form-group{
+    margin-top: 20px;
+}
+.model-button{
+    margin-left: 20%;
+    padding-top: 0;
+}
+.model-colse{
+    margin-right: 5%;
+    width:20%;
+}
+

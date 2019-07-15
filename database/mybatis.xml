@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+
+<generatorConfiguration>
+
+    <classPathEntry location="D:\mysql-connector-java-5.1.35.jar"/>
+    <!-- -->
+    <context id="DB2Tables" targetRuntime="MyBatis3">
+
+        <plugin type="com.clesun.farmer.mybatis.generator.plugin.MysqlPaginationPlugin" />
+
+        <commentGenerator>
+            <!-- 是否去除自动生成的注释 true：是 ： false:否 -->
+            <property name="suppressAllComments" value="false" />
+        </commentGenerator>
+
+        <jdbcConnection
+                driverClass="com.mysql.jdbc.Driver"
+                connectionURL="jdbc:mysql://192.168.1.81:3306/sky_land?useUnicode=false&amp;characterEncoding=UTF-8"
+                userId="root"
+                password="Clesun@2018">
+        </jdbcConnection>
+
+        <!-- 数据库与java类型之间的转换 -->
+        <javaTypeResolver>
+            <property name="forceBigDecimals" value="false" />
+        </javaTypeResolver>
+
+        <!-- Model模型生成器, 用来生成含有主键key的类，记录类 以及查询Example类
+            targetPackage   指定生成的model生成所在的包名
+            targetProject   指定在该项目下所在的路径
+        -->
+        <javaModelGenerator
+                targetPackage="com.clesun.web.skyland.entity"
+                targetProject="src/main/java">
+            <!-- 是否对model添加 构造函数 -->
+            <!--<property name="constructorBased" value="true"/>-->
+            <!-- 是否允许子包，即targetPackage.schemaName.tableName -->
+            <property name="enableSubPackages" value="true"/>
+            <!-- 建立的Model对象是否 不可改变  即生成的Model对象不会有 setter方法，只有构造方法 -->
+            <property name="immutable" value="false"/>
+            <!-- 给Model添加一个父类 -->
+            <!--<property name="rootClass" value="com.foo.louis.Hello"/>-->
+            <!-- 是否对类CHAR类型的列的数据进行trim操作 -->
+            <property name="trimStrings" value="true"/>
+        </javaModelGenerator>
+
+        <!---->
+        <sqlMapGenerator targetPackage="mapper" targetProject="src/main/resources">
+            <!-- enableSubPackages:是否让schema作为包的后缀 -->
+            <property name="enableSubPackages" value="true" />
+        </sqlMapGenerator>
+
+        <!-- targetPackage：mapper接口生成的位置 -->
+        <javaClientGenerator type="XMLMAPPER"
+                             targetPackage="com.clesun.web.skyland.dao"
+                             targetProject="src/main/java">
+            <!-- enableSubPackages:是否让schema作为包的后缀 -->
+            <property name="enableSubPackages" value="true" />
+        </javaClientGenerator>
+        <!--<table tableName="c_farm" schema="louis">-->
+
+        <!-- optional   , only for mybatis3 runtime
+             自动生成的键值（identity,或者序列值）
+           如果指定此元素，MBG将会生成<selectKey>元素，然后将此元素插入到SQL Map的<insert> 元素之中
+           sqlStatement 的语句将会返回新的值
+           如果是一个自增主键的话，你可以使用预定义的语句,或者添加自定义的SQL语句. 预定义的值如下:
+              Cloudscape    This will translate to: VALUES IDENTITY_VAL_LOCAL()
+              DB2:      VALUES IDENTITY_VAL_LOCAL()
+              DB2_MF:       SELECT IDENTITY_VAL_LOCAL() FROM SYSIBM.SYSDUMMY1
+              Derby:        VALUES IDENTITY_VAL_LOCAL()
+              HSQLDB:   CALL IDENTITY()
+              Informix:     select dbinfo('sqlca.sqlerrd1') from systables where tabid=1
+              MySql:        SELECT LAST_INSERT_ID()
+              SqlServer:    SELECT SCOPE_IDENTITY()
+              SYBASE:   SELECT @@IDENTITY
+              JDBC:     This will configure MBG to generate code for MyBatis3 suport of JDBC standard generated keys. This is a database independent method of obtaining the value from identity columns.
+              identity: 自增主键  If true, then the column is flagged as an identity column and the generated <selectKey> element will be placed after the insert (for an identity column). If false, then the generated <selectKey> will be placed before the insert (typically for a sequence).
+
+        -->
+        <!--<generatedKey column="" sqlStatement="" identity="" type=""/>-->
+
+        <!-- optional.
+                列的命名规则：
+                MBG使用 <columnRenamingRule> 元素在计算列名的对应 名称之前，先对列名进行重命名，
+                作用：一般需要对BUSI_CLIENT_NO 前的BUSI_进行过滤
+                支持正在表达式
+                searchString 表示要被换掉的字符串
+                replaceString 则是要换成的字符串，默认情况下为空字符串，可选
+        -->
+        <!--<columnRenamingRule searchString="" replaceString=""/>-->
+
+        <!-- optional.告诉 MBG 忽略某一列
+                column，需要忽略的列
+                delimitedColumnName:true ,匹配column的值和数据库列的名称 大小写完全匹配，false 忽略大小写匹配
+                是否限定表的列名，即固定表列在Model中的名称
+        -->
+        <!--<ignoreColumn column="PLAN_ID"  delimitedColumnName="true" />-->
+
+        <!--optional.覆盖MBG对Model 的生成规则
+             column: 数据库的列名
+             javaType: 对应的Java数据类型的完全限定名
+             在必要的时候可以覆盖由JavaTypeResolver计算得到的java数据类型. For some databases, this is necessary to handle "odd" database types (e.g. MySql's unsigned bigint type should be mapped to java.lang.Object).
+             jdbcType:该列的JDBC数据类型(INTEGER, DECIMAL, NUMERIC, VARCHAR, etc.)，该列可以覆盖由JavaTypeResolver计算得到的Jdbc类型，对某些数据库而言，对于处理特定的JDBC 驱动癖好 很有必要(e.g. DB2's LONGVARCHAR type should be mapped to VARCHAR for iBATIS).
+             typeHandler:
+        -->
+        <!--<columnOverride column="" javaType=""    jdbcType="" typeHandler=""  delimitedColumnName="" />-->
+
+        <!--</table>-->
+
+        <!--
+        <table tableName="BHMX"></table>
+        <table tableName="D10"></table>
+        <table tableName="D9"></table>
+
+
+        <table tableName="GDB_ITEMRELATIONSHIPS"></table>
+        <table tableName="GDB_ITEMRELATIONSHIPTYPES"></table>
+        <table tableName="GDB_ITEMS"></table>
+        <table tableName="GDB_ITEMTYPES"></table>
+        <table tableName="GDB_REPLICALOG"></table>
+        <table tableName="GDB_TABLES_LAST_MODIFIED"></table>
+        <table tableName="HJMX"></table>
+        <table tableName="HJMXPARAM"></table>
+        <table tableName="JD"></table>
+
+
+
+        <table tableName="PLANTDL"></table>
+
+        <table tableName="PLANTXL"></table>
+
+        <table tableName="SDE_GEOMETRY1"></table>
+        <table tableName="SDE_GEOMETRY2"></table>
+        <table tableName="SDE_GEOMETRY3"></table>
+        <table tableName="SDE_GEOMETRY4"></table>
+        <table tableName="SDE_GEOMETRY5"></table>
+        <table tableName="SDE_GEOMETRY7"></table>
+        <table tableName="SDE_archives"></table>
+        <table tableName="SDE_column_registry"></table>
+        <table tableName="SDE_dbtune"></table>
+        <table tableName="SDE_geometry_columns"></table>
+        <table tableName="SDE_layer_locks"></table>
+        <table tableName="SDE_layer_stats"></table>
+        <table tableName="SDE_layers"></table>
+        <table tableName="SDE_lineages_modified"></table>
+        <table tableName="SDE_locators"></table>
+        <table tableName="SDE_logfile_pool"></table>
+        <table tableName="SDE_metadata"></table>
+        <table tableName="SDE_mvtables_modified"></table>
+        <table tableName="SDE_object_ids"></table>
+        <table tableName="SDE_object_locks"></table>
+        <table tableName="SDE_process_information"></table>
+        <table tableName="SDE_raster_columns"></table>
+        <table tableName="SDE_server_config"></table>
+        <table tableName="SDE_spatial_references"></table>
+        <table tableName="SDE_state_lineages"></table>
+        <table tableName="SDE_state_locks"></table>
+        <table tableName="SDE_states"></table>
+        <table tableName="SDE_table_locks"></table>
+        <table tableName="SDE_table_registry"></table>
+        <table tableName="SDE_tables_modified"></table>
+        <table tableName="SDE_version"></table>
+        <table tableName="SDE_versions"></table>
+        <table tableName="SDE_xml_columns"></table>
+        <table tableName="SDE_xml_index_tags"></table>
+        <table tableName="SDE_xml_indexes"></table>
+        <table tableName="SOILTEST"></table>
+        <table tableName="SYS_FUNC"></table>
+        <table tableName="SYS_FUNC_ROLE_R"></table>
+        <table tableName="SYS_RES_CONTENT"></table>
+        <table tableName="SYS_RES_INFO"></table>
+        <table tableName="SYS_ROLE"></table>
+        <table tableName="SYS_ROLE_CONTENT"></table>
+        <table tableName="SYS_USER"></table>
+        <table tableName="SYS_USER_ROLE_R"></table>
+        <table tableName="SZMX"></table>
+
+        <table tableName="ZHNY_DICT"></table>
+
+        <table tableName="ZONE"></table>
+        <table tableName="a10"></table>
+        <table tableName="a9"></table>
+        <table tableName="i10"></table>
+        <table tableName="i13"></table>
+        <table tableName="i2"></table>
+        <table tableName="i3"></table>
+        <table tableName="i4"></table>
+        <table tableName="i5"></table>
+        <table tableName="i6"></table>
+        <table tableName="i7"></table>
+        <table tableName="i8"></table>
+        <table tableName="i9"></table>
+        <table tableName="PLANT"></table>
+        <table tableName="BASE"></table>
+        <table tableName="PLANTRECORD"></table>
+
+        <table tableName="EQUIPMENT"></table>
+        <table tableName="FARMRESOURCE"></table>
+        <table tableName="FARMWORK"></table>
+        <table tableName="PERSON"></table>
+        <table tableName="RESOURCERECORD"></table>
+        <table tableName="WORKRECORD"></table>
+        <table tableName="ZHNY_NSGL"></table>
+        <table tableName="ZHNY_NSGL_XQ"></table>
+        <table tableName="ZHNY_NSXQ_TRP"></table>
+        <table tableName="PARCEL"></table>-->
+    </context>
+
+</generatorConfiguration>

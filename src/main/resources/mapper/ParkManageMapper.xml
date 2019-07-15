@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.clesun.web.skyland.dao.ParkManageMapper">
+  <resultMap id="BaseResultMap" type="com.clesun.web.skyland.dto.StatisticsEntity">
+    <result column="pracelNum" jdbcType="DOUBLE" property="pracelNum" />
+    <result column="plantArea" jdbcType="DOUBLE" property="plantArea" />
+  </resultMap>
+
+  <!--地块统计包装实体映射-->
+  <resultMap id="areaResultMap" type="com.clesun.web.skyland.dto.AreaDto" >
+    <result column="area" property="area" jdbcType="DOUBLE" />
+    <result column="areaType" property="areaType" jdbcType="VARCHAR" />
+    <result column="areaLevel" property="areaLevel" jdbcType="VARCHAR" />
+    <result column="ownerUnit" property="ownerUnit" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <!--统计地块数量-->
+  <select id="getPracelNum" resultType="Double">
+    SELECT count(*) AS pracelNum FROM PARCEL
+  </select>
+
+  <!--统计种植面积-->
+  <select id="getPlantArea" resultType="Double">
+    SELECT sum(MJ) AS plantArea FROM PARCEL
+  </select>
+
+
+  <!--地力等级统计-->
+  <select id="getAreaLevelStatistics" parameterType="com.clesun.web.skyland.dto.AreaDto" resultMap="areaResultMap">
+    select sum(MJ) as area, IFNULL(NULLIF(DLDJ,' '),'其他') as 'areaLevel' FROM PARCEL GROUP BY DLDJ
+  </select>
+
+  <!--地块类型统计-->
+  <select id="getAreaTypeStatistics" parameterType="com.clesun.web.skyland.dto.AreaDto" resultMap="areaResultMap">
+    select sum(MJ) as area, IFNULL(NULLIF(DKLX,' '),'其他') as 'areaType' FROM PARCEL GROUP BY DKLX
+  </select>
+
+  <!--耕地分布统计-->
+  <select id="getAreaDistribution" parameterType="com.clesun.web.skyland.dto.AreaDto" resultMap="areaResultMap">
+    select sum(MJ) as area, IFNULL(NULLIF(ownerUnit,' '),'其他') as 'ownerUnit' from PARCEL GROUP BY ownerUnit
+  </select>
+</mapper>

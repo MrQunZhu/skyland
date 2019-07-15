@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.clesun.web.skyland.dao.PlantManageMapper">
+  <!--作物种植面积dto-->
+  <resultMap id="BaseResultMap" type="com.clesun.web.skyland.dto.PlantDto">
+    <result column="plantArea" jdbcType="DOUBLE" property="plantArea" />
+    <result column="plantName" jdbcType="VARCHAR" property="plantName" />
+    <result column="parceNum" jdbcType="INTEGER" property="parceNum" />
+  </resultMap>
+
+  <!--投入品dto-->
+  <resultMap id="InputResultMap" type="com.clesun.web.skyland.dto.InputDto">
+    <result column="inputCode" jdbcType="VARCHAR" property="inputCode" />
+    <result column="inputName" jdbcType="VARCHAR" property="inputName" />
+    <result column="amount" jdbcType="DOUBLE" property="amount" />
+    <result column="opertime" jdbcType="INTEGER" property="opertime" />
+    <result column="inputType" jdbcType="VARCHAR" property="inputType" />
+    <result column="manufacturer" jdbcType="VARCHAR" property="manufacturer" />
+    <result column="instructions" jdbcType="VARCHAR" property="instructions" />
+  </resultMap>
+
+  <!--种植记录-->
+  <resultMap id="PlantResultMap" type="com.clesun.web.skyland.entity.ZhnyNsgl" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="DKID" property="dkid" jdbcType="VARCHAR" />
+    <result column="DKBH" property="dkbh" jdbcType="VARCHAR" />
+    <result column="NSMC" property="nsmc" jdbcType="VARCHAR" />
+    <result column="ZZMJ" property="zzmj" jdbcType="DOUBLE" />
+    <result column="CZGF" property="czgf" jdbcType="VARCHAR" />
+    <result column="TPDZ" property="tpdz" jdbcType="VARCHAR" />
+    <result column="KSSJ" property="kssj" jdbcType="TIMESTAMP" />
+    <result column="JSSJ" property="jssj" jdbcType="TIMESTAMP" />
+    <result column="BY1" property="by1" jdbcType="VARCHAR" />
+    <result column="BY2" property="by2" jdbcType="VARCHAR" />
+    <result column="BY3" property="by3" jdbcType="VARCHAR" />
+    <result column="CJSJ" property="cjsj" jdbcType="TIMESTAMP" />
+    <result column="ZZWD" property="zzwd" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <!--种植记录查询字段-->
+  <sql id="Base_Column_List" >
+    id, DKID, DKBH, NSMC, ZZMJ, CZGF, TPDZ, KSSJ, JSSJ, BY1, BY2, BY3, CJSJ, ZZWD
+  </sql>
+
+  <!--统计不同作物种植面积和地块数量-->
+  <select id="getPlantStatistic"  resultMap="BaseResultMap">
+    select sum(ZZMJ) as plantArea,NSMC as plantName,count(DKID) as parceNum FROM ZHNY_NSGL
+    where year(JSSJ) = #{year} GROUP BY NSMC;
+  </select>
+
+  <!--按年份统计投入品使用情况-->
+  <select id="getInputStatistic" resultMap="InputResultMap">
+    select nsxqTrp.NZMC as inputCode, sum(nsxqTrp.NZYL) as amount,nsxqTrp.NZLB as inputName,year(nsgl.JSSJ) as opertime FROM ZHNY_NSGL as nsgl
+      INNER join ZHNY_NSGL_XQ as nsglXq on nsgl.id = nsglXq.NSGL_ID
+      INNER join ZHNY_NSXQ_TRP as nsxqTrp on nsglXq.id = nsxqTrp.NSXQ_ID
+    where nsxqTrp.NZLB = #{type} GROUP BY year(nsgl.JSSJ)
+  </select>
+
+  <!--种植信息自定义分页查询-->
+  <select id="findPlantByPage" resultMap="PlantResultMap">
+    select
+    <include refid="Base_Column_List" /> from ZHNY_NSGL
+    WHERE 1=1
+    <if test="parcelId != null and parcelId != ''">
+      AND DKID = #{parcelId}
+    </if>
+    <if test="cropName != null and cropName != ''">
+      AND NSMC = #{cropName}
+    </if>
+    <if test="year != null and year != ''">
+      AND year(JSSJ) = #{year}
+    </if>
+    ORDER BY JSSJ DESC
+  </select>
+
+  <!--投入品信息自定义分页查询-->
+  <select id="findInputByPage" resultMap="InputResultMap">
+    SELECT  trp.id as inputCode,source.type as inputType,source.mc as inputName,trp.NZYL as amount,source.sccs as manufacturer,source.sybz as instructions
+    FROM ZHNY_NSGL as nsgl
+    INNER JOIN ZHNY_NSGL_XQ as nsglxq ON nsgl.id = nsglxq.NSGL_ID
+    INNER JOIN ZHNY_NSXQ_TRP as trp on trp.NSXQ_ID = nsglxq.id
+    INNER JOIN FARMRESOURCE as source on source.bh = trp.NZMC
+    WHERE  year(nsgl.JSSJ) = #{year} and source.type = #{type}
+    <if test="inputName != null and inputName != ''">
+      AND source.mc = #{inputName}
+    </if>
+    <if test="manufacturer != null and manufacturer != ''">
+      AND source.sccs = #{manufacturer}
+    </if>
+  </select>
+
+</mapper>

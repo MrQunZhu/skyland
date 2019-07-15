@@ -1,0 +1,84 @@
+
+spring:
+  thymeleaf:
+    mode: HTML5
+    encoding: UTF-8
+    content-type: text/html
+    cache: false
+#thymeleaf end
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+
+  datasource:
+    url: jdbc:mysql://192.168.1.81:3306/sky_land?useUnicode=false&characterEncoding=UTF-8
+    username: root
+    password: Clesun@2018
+    driver-class-name: com.mysql.jdbc.Driver
+    sql-script-encoding: UTF-8
+#mybatis.config-locations=classpath:mybatis-config.xml
+#mybatis.mapper-locations=classpath:com.clesun.auth.clesunauthsystem_v2.dao
+# 使用druid数据源
+    type: com.alibaba.druid.pool.DruidDataSource
+    filters: stat
+    maxActive: 20
+    initialSize: 1
+    maxWait: 60000
+    minIdle: 1
+    timeBetweenEvictionRunsMillis: 60000
+    minEvictableIdleTimeMillis: 300000
+    testWhileIdle: true
+    testOnBorrow: false
+    testOnReturn: false
+    poolPreparedStatements: true
+    maxOpenPreparedStatements: 20
+  config:
+    location: classpath:./quartz.xml
+  artemis:
+
+
+# mybatis配置
+mybatis:
+  type-aliases-package: com.clesun.web.skyland.entity
+  mapper-locations: classpath:mapper/*.xml
+  configuration:
+    use-generated-keys: true
+    use-column-label: true
+    map-underscore-to-camel-case: false
+    key-generator-names: SelectKeyGenerator
+    use-actual-param-name: false
+    lazy-loading-enabled: false
+    aggressive-lazy-loading: false
+
+
+#默认值配置
+header:
+  USERTOKEN: o7qc9w9i9UFwVPkisPrscwl98G5g
+
+# shiro配置
+
+#其他配置
+mylocation:
+  taskHost: http://127.0.0.1:8087/dy/weather
+
+management:
+  security:
+    enabled: false
+endpoints:
+  shutdown:
+    enabled: true
+info:
+  connectEmail: hnyzlsw_645@163.com
+server:
+  port: 8081
+#logging:
+#  config: classpath:logback-boot.xml
+
+qs:
+#  url: http://222.89.184.67:8090/clesunfarm
+  url: http://localhost:8090/clesunfarm
+farm:
+#  url: http://222.89.184.67:80/farmApi
+  url: http://localhost:9091/farmApi
+
+
